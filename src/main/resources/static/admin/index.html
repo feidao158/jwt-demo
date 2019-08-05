@@ -3,14 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="/js/jquery-3.3.1.min.js"></script>
     <script>
         var item = sessionStorage.getItem('token');
-        if (!item)
+        if (item==null)
         {
             window.location.href = "/login.html"
+        }else
+        {
+            $.ajax({
+                headers:{
+                    Authorization:item
+                },
+                type:'get',
+                url:'/admin/parse',
+                dataType:'json',
+                success:function (res) {
+                    console.log(res)
+                    if(res.status==505)
+                    {
+                        sessionStorage.removeItem('token')
+                        alert(res.msg)
+                        window.location.reload()
+                    }
+                }
+            })
         }
+
+
+
     </script>
-    <script src="/js/jquery-3.3.1.min.js"></script>
 
 </head>
 <body>
@@ -18,12 +40,10 @@
 <button>logout</button>
 <script>
 
-
     $('button').click(function () {
         sessionStorage.removeItem('token')
         window.location.reload()
     })
-
 
 </script>
 </body>

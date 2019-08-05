@@ -67,31 +67,14 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
         {
             try {
                 executeLogin(request,response);
-                System.out.println("我国立了");
             }catch (Exception e)
             {
                 response401(request,response);
             }
         }
-        responseIndex(response);
         return true;
     }
 
-//    @Override
-//    protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
-//        System.out.printf("我是谁 我在哪5");
-//        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-//        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-//        httpServletResponse.setHeader("Access-control-Allow-Origin", httpServletRequest.getHeader("Origin"));
-//        httpServletResponse.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS,PUT,DELETE");
-//        httpServletResponse.setHeader("Access-Control-Allow-Headers", httpServletRequest.getHeader("Access-Control-Request-Headers"));
-//        // 跨域时会首先发送一个option请求，这里给option请求直接返回正常状态
-//        if (httpServletRequest.getMethod().equals(RequestMethod.OPTIONS.name())) {
-//            httpServletResponse.setStatus(HttpStatus.OK.value());
-//            return false;
-//        }
-//        return super.preHandle(request, response);
-//    }
 
     private void response401(ServletRequest req, ServletResponse resp) {
         try {

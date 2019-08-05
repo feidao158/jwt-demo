@@ -23,7 +23,9 @@ public class LoginController {
 
         if("zhangwei".equals(username) && "abc-123".equals(password))
         {
-            String token = JwtUtils.generateJwt("1", "zhangwei", "admin");
+            HashMap<String, String> hashMap = new HashMap<>();
+            hashMap.put("test","哈哈哈");
+            String token = JwtUtils.generateJwt("1", "zhangwei", hashMap);
             jsonResult.setStatus(200);
             jsonResult.setMsg("登录成功");
             HashMap<String, String> dataInfo = new HashMap<>(16);

@@ -2,8 +2,10 @@ package com.example.jwtdemo.config;
 
 import com.example.jwtdemo.filter.JwtFilter;
 import com.example.jwtdemo.service.JwtRealm;
+import org.apache.shiro.mgt.SessionStorageEvaluator;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.mgt.DefaultWebSessionStorageEvaluator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -44,5 +46,17 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setLoginUrl("/login.html");
         return shiroFilterFactoryBean;
     }
+    /**
+     * 禁用session
+     * @return
+     */
+    @Bean
+    protected SessionStorageEvaluator sessionStorageEvaluator()
+    {
+        DefaultWebSessionStorageEvaluator defaultWebSessionStorageEvaluator = new DefaultWebSessionStorageEvaluator();
+        defaultWebSessionStorageEvaluator.setSessionStorageEnabled(false);
+        return defaultWebSessionStorageEvaluator;
+    }
+
 
 }

@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * @author Admin
@@ -21,15 +23,14 @@ public class JwtUtils {
     @Autowired
     JwtConfig jwtConfigInfo;
 
-    static  JwtConfig jwtConfig;
+    static JwtConfig jwtConfig;
 
-    public static  String getExp()
-    {
+    public static String getExp() {
         return jwtConfig.getExp();
     }
+
     @PostConstruct
-    public void init()
-    {
+    public void init() {
         JwtUtils.setJwtConfig(jwtConfigInfo);
     }
 
@@ -49,33 +50,33 @@ public class JwtUtils {
         JwtUtils.jwtConfig = jwtConfig;
     }
 
-
     /**
-     * 生成jwt信息
-     * @param id 唯一id标识
+     *
+     * @param id 用户唯一id
      * @param subject 当前认证主体
-     * @param role 用户角色
+     * @param map 其他参数信息
      * @return
      */
-    public static String generateJwt(String id,String subject,String role)
-    {
+    public static String generateJwt(String id, String subject, Map<String, String> map) {
         JwtBuilder jwtBuilder = Jwts.builder()
                 .setId(id)
                 .setSubject(subject)
                 .setIssuedAt(new Date())
-                .claim("role",role)
                 .setExpiration(new Date(System.currentTimeMillis() + Integer.parseInt(jwtConfig.getExp())))
                 .signWith(SignatureAlgorithm.HS256, jwtConfig.getSecurity());
+        Iterator iterator = map.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<String,String> entry = (Map.Entry)iterator.next();
+            jwtBuilder.claim(entry.getKey(),entry.getValue());
+        }
         return jwtBuilder.compact();
     }
 
     /**
-     *
      * @param token token信息
      * @return
      */
-    public static Claims parseJwt(String token)
-    {
+    public static Claims parseJwt(String token) {
         Claims body = Jwts.parser().setSigningKey(jwtConfig.getSecurity())
                 .parseClaimsJws(token)
                 .getBody();

@@ -1,6 +1,8 @@
 package com.example.jwtdemo.service;
 
 import com.example.jwtdemo.config.JwtToken;
+import com.example.jwtdemo.utils.JwtUtils;
+import io.jsonwebtoken.Claims;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -37,8 +39,9 @@ public class JwtRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
 
         String token = (String)authenticationToken.getCredentials();
-        System.out.println(token);
-        System.out.println("我进来了");
+        Claims claims = JwtUtils.parseJwt(token);
+        Object test = claims.get("test");
+        System.out.println(test);
         return new SimpleAuthenticationInfo(token,token,"1");
     }
 }
