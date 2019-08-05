@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        var item = sessionStorage.getItem('token');
+        if (!item)
+        {
+            window.location.href = "/login.html"
+        }
+    </script>
+    <script src="/js/jquery-3.3.1.min.js"></script>
+
+</head>
+<body>
+<h1 style="color: red">哈哈哈 恭喜你成功了</h1>
+<button>logout</button>
+<script>
+
+
+    $('button').click(function () {
+        sessionStorage.removeItem('token')
+        window.location.reload()
+    })
+
+
+</script>
+</body>
+</html>

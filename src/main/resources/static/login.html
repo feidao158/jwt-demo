@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <script src="./js/jquery-3.3.1.min.js"></script>
+    <style>
+        .container{
+            width: 800px;
+            margin: 0 auto;
+            height: 600px;
+            background-color: cornflowerblue;
+        }
+
+        .form{
+            justify-content: center;
+            width: 100%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+<h1 align="center">登录</h1>
+
+        <div class="form">
+            <input type="text" name="username" placeholder="username"/>
+            <br>
+            <input type="password" name="password" placeholder="password"/>
+            <br>
+            <button>登录</button>
+        </div>
+
+</div>
+
+<script>
+    $('button').click(function () {
+        var username = $('input[name="username"]').val()
+        var password = $('input[name="password"]').val()
+        $.ajax({
+            url:'/login',
+            method:'post',
+            data:{
+                username:username,
+                password:password
+            },
+            success:function (res) {
+                if(res.status!=200)
+                {
+                    alert(res.msg)
+                    return;
+                }
+
+                sessionStorage.setItem("token",res.data.token)
+                window.location.href = "/admin/index.html"
+            }
+
+        })
+    })
+
+
+</script>
+</body>
+</html>
